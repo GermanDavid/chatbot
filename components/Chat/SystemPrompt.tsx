@@ -206,6 +206,7 @@ export const SystemPrompt: FC<Props> = ({
               : 'hidden'
           }`,
         }}
+        dir="rtl"
         placeholder={
           t(`Enter a prompt or type "/" to select a prompt...`) || ''
         }

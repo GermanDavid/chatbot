@@ -78,6 +78,7 @@ export const ChatMessage: FC<Props> = memo(
             : 'border-b border-black/10 bg-white text-gray-800 dark:border-gray-900/50 dark:bg-[#343541] dark:text-gray-100'
         }`}
         style={{ overflowWrap: 'anywhere' }}
+        dir="rtl"
       >
         <div className="relative m-auto flex gap-4 p-4 text-base md:max-w-2xl md:gap-6 md:py-6 lg:max-w-2xl lg:px-0 xl:max-w-3xl">
           <div className="min-w-[40px] text-right font-bold">
