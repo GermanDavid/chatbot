@@ -25,9 +25,9 @@ import { ModelSelect } from './ModelSelect';
 
 interface Props {
   conversation: Conversation;
+  messageIsStreaming: boolean;
   apiKey: string;
   serverSideApiKeyIsSet: boolean;
-  messageIsStreaming: boolean;
   modelError: ErrorMessage | null;
   loading: boolean;
   prompts: Prompt[];
@@ -47,9 +47,9 @@ interface Props {
 export const Chat: FC<Props> = memo(
   ({
     conversation,
+    messageIsStreaming,
     apiKey,
     serverSideApiKeyIsSet,
-    messageIsStreaming,
     modelError,
     loading,
     prompts,
