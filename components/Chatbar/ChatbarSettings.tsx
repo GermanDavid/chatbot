@@ -1,40 +1,27 @@
 import { SupportedExportFormats } from '@/types/export';
-import { PluginKey } from '@/types/plugin';
 import { IconFileExport, IconMoon, IconSun } from '@tabler/icons-react';
 import { useTranslation } from 'next-i18next';
 import { FC } from 'react';
 import { Import } from '../Settings/Import';
-import { Key } from '../Settings/Key';
 import { SidebarButton } from '../Sidebar/SidebarButton';
 import { ClearConversations } from './ClearConversations';
-import { PluginKeys } from './PluginKeys';
 
 interface Props {
   lightMode: 'light' | 'dark';
-  apiKey: string;
-  pluginKeys: PluginKey[];
   conversationsCount: number;
   onToggleLightMode: (mode: 'light' | 'dark') => void;
-  onApiKeyChange: (apiKey: string) => void;
   onClearConversations: () => void;
   onExportConversations: () => void;
   onImportConversations: (data: SupportedExportFormats) => void;
-  onPluginKeyChange: (pluginKey: PluginKey) => void;
-  onClearPluginKey: (pluginKey: PluginKey) => void;
 }
 
 export const ChatbarSettings: FC<Props> = ({
   lightMode,
-  apiKey,
-  pluginKeys,
   conversationsCount,
   onToggleLightMode,
-  onApiKeyChange,
   onClearConversations,
   onExportConversations,
   onImportConversations,
-  onPluginKeyChange,
-  onClearPluginKey,
 }) => {
   const { t } = useTranslation('sidebar');
 
@@ -60,14 +47,6 @@ export const ChatbarSettings: FC<Props> = ({
         onClick={() =>
           onToggleLightMode(lightMode === 'light' ? 'dark' : 'light')
         }
-      />
-
-      <Key apiKey={apiKey} onApiKeyChange={onApiKeyChange} />
-
-      <PluginKeys
-        pluginKeys={pluginKeys}
-        onPluginKeyChange={onPluginKeyChange}
-        onClearPluginKey={onClearPluginKey}
       />
     </div>
   );

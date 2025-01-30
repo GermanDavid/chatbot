@@ -22,14 +22,11 @@ import { ChatLoader } from './ChatLoader';
 import { ChatMessage } from './ChatMessage';
 import { ErrorMessageDiv } from './ErrorMessageDiv';
 import { ModelSelect } from './ModelSelect';
-import { SystemPrompt } from './SystemPrompt';
 
 interface Props {
   conversation: Conversation;
-  models: OpenAIModel[];
   apiKey: string;
   serverSideApiKeyIsSet: boolean;
-  defaultModelId: OpenAIModelID;
   messageIsStreaming: boolean;
   modelError: ErrorMessage | null;
   loading: boolean;
@@ -50,10 +47,8 @@ interface Props {
 export const Chat: FC<Props> = memo(
   ({
     conversation,
-    models,
     apiKey,
     serverSideApiKeyIsSet,
-    defaultModelId,
     messageIsStreaming,
     modelError,
     loading,
@@ -66,7 +61,6 @@ export const Chat: FC<Props> = memo(
     const { t } = useTranslation('chat');
     const [currentMessage, setCurrentMessage] = useState<Message>();
     const [autoScrollEnabled, setAutoScrollEnabled] = useState<boolean>(true);
-    const [showSettings, setShowSettings] = useState<boolean>(false);
     const [showScrollDownButton, setShowScrollDownButton] =
       useState<boolean>(false);
 
@@ -102,10 +96,6 @@ export const Chat: FC<Props> = memo(
         top: chatContainerRef.current.scrollHeight,
         behavior: 'smooth',
       });
-    };
-
-    const handleSettings = () => {
-      setShowSettings(!showSettings);
     };
 
     const onClearAll = () => {
@@ -207,7 +197,7 @@ export const Chat: FC<Props> = memo(
                 <>
                   <div className="mx-auto flex w-[350px] flex-col space-y-10 pt-12 sm:w-[600px]">
                     <div className="text-center text-3xl font-semibold text-gray-800 dark:text-gray-100">
-                      {models.length === 0 ? (
+                      {loading ? (
                         <div>
                           <Spinner size="16px" className="mx-auto" />
                         </div>
@@ -215,33 +205,6 @@ export const Chat: FC<Props> = memo(
                         'Chatbot'
                       )}
                     </div>
-
-                    {models.length > 0 && (
-                      <div className="flex h-full flex-col space-y-4 rounded-lg border border-neutral-200 p-4 dark:border-neutral-600">
-                        <ModelSelect
-                          model={conversation.model}
-                          models={models}
-                          defaultModelId={defaultModelId}
-                          onModelChange={(model) =>
-                            onUpdateConversation(conversation, {
-                              key: 'model',
-                              value: model,
-                            })
-                          }
-                        />
-
-                        <SystemPrompt
-                          conversation={conversation}
-                          prompts={prompts}
-                          onChangePrompt={(prompt) =>
-                            onUpdateConversation(conversation, {
-                              key: 'prompt',
-                              value: prompt,
-                            })
-                          }
-                        />
-                      </div>
-                    )}
                   </div>
                 </>
               ) : (
@@ -250,34 +213,11 @@ export const Chat: FC<Props> = memo(
                     {t('Model')}: {conversation.model.name}
                     <button
                       className="ml-2 cursor-pointer hover:opacity-50"
-                      onClick={handleSettings}
-                    >
-                      <IconSettings size={18} />
-                    </button>
-                    <button
-                      className="ml-2 cursor-pointer hover:opacity-50"
                       onClick={onClearAll}
                     >
                       <IconClearAll size={18} />
                     </button>
                   </div>
-                  {showSettings && (
-                    <div className="flex flex-col space-y-10 md:mx-auto md:max-w-xl md:gap-6 md:py-3 md:pt-6 lg:max-w-2xl lg:px-0 xl:max-w-3xl">
-                      <div className="flex h-full flex-col space-y-4 border-b border-neutral-200 p-4 dark:border-neutral-600 md:rounded-lg md:border">
-                        <ModelSelect
-                          model={conversation.model}
-                          models={models}
-                          defaultModelId={defaultModelId}
-                          onModelChange={(model) =>
-                            onUpdateConversation(conversation, {
-                              key: 'model',
-                              value: model,
-                            })
-                          }
-                        />
-                      </div>
-                    </div>
-                  )}
 
                   {conversation.messages.map((message, index) => (
                     <ChatMessage
