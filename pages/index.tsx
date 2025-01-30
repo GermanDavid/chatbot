@@ -20,7 +20,7 @@ import {
   cleanConversationHistory,
   cleanSelectedConversation,
 } from '@/utils/app/clean';
-import { DEFAULT_SYSTEM_PROMPT } from '@/utils/app/const';
+import { SYSTEM_MESSAGE } from '@/utils/app/const';
 import {
   saveConversation,
   saveConversations,
@@ -482,15 +482,15 @@ const Home: React.FC<HomeProps> = ({
 
     const newConversation: Conversation = {
       id: uuidv4(),
-      name: `${t('New Conversation')}`,
+      name: t('New Conversation'),
       messages: [],
-      model: lastConversation?.model || {
-        id: OpenAIModels[defaultModelId].id,
-        name: OpenAIModels[defaultModelId].name,
-        maxLength: OpenAIModels[defaultModelId].maxLength,
-        tokenLimit: OpenAIModels[defaultModelId].tokenLimit,
+      model: models.find((m) => m.id === defaultModelId) || {
+        id: defaultModelId,
+        name: 'GPT-3.5',
+        maxLength: 12000,
+        tokenLimit: 4000,
       },
-      prompt: DEFAULT_SYSTEM_PROMPT,
+      prompt: SYSTEM_MESSAGE,
       folderId: null,
     };
 
@@ -523,7 +523,7 @@ const Home: React.FC<HomeProps> = ({
         name: 'New conversation',
         messages: [],
         model: OpenAIModels[defaultModelId],
-        prompt: DEFAULT_SYSTEM_PROMPT,
+        prompt: SYSTEM_MESSAGE,
         folderId: null,
       });
       localStorage.removeItem('selectedConversation');
@@ -557,7 +557,7 @@ const Home: React.FC<HomeProps> = ({
       name: 'New conversation',
       messages: [],
       model: OpenAIModels[defaultModelId],
-      prompt: DEFAULT_SYSTEM_PROMPT,
+      prompt: SYSTEM_MESSAGE,
       folderId: null,
     });
     localStorage.removeItem('selectedConversation');
@@ -726,7 +726,7 @@ const Home: React.FC<HomeProps> = ({
         name: 'New conversation',
         messages: [],
         model: OpenAIModels[defaultModelId],
-        prompt: DEFAULT_SYSTEM_PROMPT,
+        prompt: SYSTEM_MESSAGE,
         folderId: null,
       });
     }
