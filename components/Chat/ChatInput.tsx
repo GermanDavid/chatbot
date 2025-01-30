@@ -14,6 +14,7 @@ import {
   FC,
   KeyboardEvent,
   MutableRefObject,
+  RefObject,
   useCallback,
   useEffect,
   useRef,
@@ -62,7 +63,7 @@ export const ChatInput: FC<Props> = ({
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
-    const maxLength = model.maxLength;
+    const maxLength = 12000;
 
     if (value.length > maxLength) {
       alert(
