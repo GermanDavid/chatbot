@@ -1,6 +1,6 @@
 import { Conversation } from '@/types/chat';
 import { OpenAIModelID, OpenAIModels } from '@/types/openai';
-import { DEFAULT_SYSTEM_PROMPT } from './const';
+import { SYSTEM_MESSAGE } from './const';
 
 export const cleanSelectedConversation = (conversation: Conversation) => {
   // added model for each conversation (3/20/23)
@@ -22,7 +22,7 @@ export const cleanSelectedConversation = (conversation: Conversation) => {
   if (!updatedConversation.prompt) {
     updatedConversation = {
       ...updatedConversation,
-      prompt: updatedConversation.prompt || DEFAULT_SYSTEM_PROMPT,
+      prompt: updatedConversation.prompt || SYSTEM_MESSAGE,
     };
   }
 
@@ -47,14 +47,14 @@ export const cleanConversationHistory = (history: any[]): Conversation[] => {
     return [];
   }
 
-  return history.reduce((acc: any[], conversation) => {
+  return history.reduce((acc: Conversation[], conversation) => {
     try {
       if (!conversation.model) {
         conversation.model = OpenAIModels[OpenAIModelID.GPT_3_5];
       }
 
       if (!conversation.prompt) {
-        conversation.prompt = DEFAULT_SYSTEM_PROMPT;
+        conversation.prompt = SYSTEM_MESSAGE;
       }
 
       if (!conversation.folderId) {
@@ -65,10 +65,10 @@ export const cleanConversationHistory = (history: any[]): Conversation[] => {
       return acc;
     } catch (error) {
       console.warn(
-        `error while cleaning conversations' history. Removing culprit`,
+        `error while cleaning conversations' history. Removing conversation from history.`,
         error,
       );
+      return acc;
     }
-    return acc;
   }, []);
 };
