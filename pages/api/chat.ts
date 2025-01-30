@@ -21,10 +21,10 @@ const handler = async (req: Request): Promise<Response> => {
       tiktokenModel.pat_str,
     );
 
-    const systemMessage: Message = {
-      role: 'system',
+    const systemMessage = {
+      role: 'system' as const,
       content: prompt || SYSTEM_MESSAGE,
-    };
+    } satisfies Message;
 
     const prompt_tokens = encoding.encode(systemMessage.content);
 
