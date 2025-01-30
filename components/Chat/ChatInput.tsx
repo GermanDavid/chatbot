@@ -25,18 +25,16 @@ import { VariableModal } from './VariableModal';
 
 interface Props {
   messageIsStreaming: boolean;
-  model: OpenAIModel;
   conversationIsEmpty: boolean;
   prompts: Prompt[];
   onSend: (message: Message, plugin: Plugin | null) => void;
   onRegenerate: () => void;
   stopConversationRef: MutableRefObject<boolean>;
-  textareaRef: MutableRefObject<HTMLTextAreaElement | null>;
+  textareaRef: RefObject<HTMLTextAreaElement>;
 }
 
 export const ChatInput: FC<Props> = ({
   messageIsStreaming,
-  model,
   conversationIsEmpty,
   prompts,
   onSend,

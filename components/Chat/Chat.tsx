@@ -243,7 +243,6 @@ export const Chat: FC<Props> = memo(
               textareaRef={textareaRef}
               messageIsStreaming={messageIsStreaming}
               conversationIsEmpty={conversation.messages.length === 0}
-              model={conversation.model}
               prompts={prompts}
               onSend={(message, plugin) => {
                 setCurrentMessage(message);
