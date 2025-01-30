@@ -23,7 +23,6 @@ export class OpenAIError extends Error {
 
 export const OpenAIStream = async (
   model: OpenAIModel,
-  systemPrompt: string,
   key: string,
   messages: Message[],
 ) => {
@@ -41,7 +40,6 @@ export const OpenAIStream = async (
       messages: [
         {
           role: 'system',
-          content: systemPrompt,
         },
         ...messages,
       ],
