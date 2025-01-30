@@ -44,7 +44,11 @@ const handler = async (req: Request): Promise<Response> => {
 
     encoding.free();
 
-    const stream = await OpenAIStream(model, systemMessage.content, key, messagesToSend);
+    const stream = await OpenAIStream(
+      model,
+      key,
+      [systemMessage, ...messagesToSend]
+    );
 
     return new Response(stream);
   } catch (error) {
